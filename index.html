@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Drop Model Playbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0b0b0a;
+    --paper: #efe9df;
+    --paper-dim: #b9b2a4;
+    --gold: #c6a15b;
+    --gold-dim: #8a7145;
+    --card: #141311;
+    --card-line: #2a2822;
+    --hair: #35322c;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'Inter', -apple-system, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  header {
+    padding: 100px 0 70px;
+    border-bottom: 1px solid var(--hair);
+  }
+  h1.hero {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 52px;
+    line-height: 1.06;
+    letter-spacing: -0.5px;
+    margin: 22px 0 24px;
+  }
+  .hero-sub {
+    font-size: 17px;
+    color: var(--paper-dim);
+    max-width: 480px;
+    margin-bottom: 40px;
+  }
+  .buy-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .price {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    color: var(--gold);
+  }
+  .price span {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--paper-dim);
+    display: block;
+    letter-spacing: 1px;
+    margin-top: 2px;
+  }
+  .cta {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    padding: 15px 30px;
+    border-radius: 2px;
+    text-decoration: none;
+    letter-spacing: 0.2px;
+  }
+  .cta:hover { background: #d6b16c; }
+  section { padding: 64px 0; border-bottom: 1px solid var(--hair); }
+  section:last-of-type { border-bottom: none; }
+  h2.section-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 28px;
+    margin: 10px 0 34px;
+  }
+  .toc {
+    list-style: none;
+  }
+  .toc li {
+    display: grid;
+    grid-template-columns: 46px 1fr;
+    gap: 18px;
+    padding: 18px 0;
+    border-top: 1px solid var(--hair);
+    align-items: baseline;
+  }
+  .toc li:last-child { border-bottom: 1px solid var(--hair); }
+  .toc .num {
+    font-family: 'IBM Plex Mono', monospace;
+    color: var(--gold);
+    font-size: 13px;
+  }
+  .toc .name {
+    font-size: 16px;
+  }
+  .toc .desc {
+    color: var(--paper-dim);
+    font-size: 14px;
+    grid-column: 2;
+    margin-top: 4px;
+  }
+  .for-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 32px;
+  }
+  .for-item {
+    font-size: 15px;
+    padding-left: 22px;
+    position: relative;
+    color: var(--paper-dim);
+  }
+  .for-item::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 8px;
+    width: 8px; height: 8px;
+    border: 1px solid var(--gold);
+  }
+  .sample {
+    background: var(--card);
+    border: 1px solid var(--card-line);
+    border-left: 3px solid var(--gold);
+    padding: 22px 26px;
+    font-size: 15px;
+  }
+  .sample .label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 10px;
+  }
+  .sample p { color: var(--paper-dim); }
+  .faq-item { padding: 20px 0; border-top: 1px solid var(--hair); }
+  .faq-item:last-child { border-bottom: 1px solid var(--hair); }
+  .faq-q { font-weight: 600; font-size: 15px; margin-bottom: 6px; }
+  .faq-a { font-size: 14px; color: var(--paper-dim); }
+  .final {
+    text-align: center;
+    padding: 90px 0 100px;
+  }
+  .final h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 34px;
+    margin: 0 0 16px;
+    max-width: 460px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .final .hero-sub { margin: 0 auto 32px; text-align: center; }
+  .final .buy-row { justify-content: center; }
+  footer {
+    text-align: center;
+    padding: 30px 0 60px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--paper-dim);
+  }
+  @media (max-width: 600px) {
+    h1.hero { font-size: 36px; }
+    .for-grid { grid-template-columns: 1fr; }
+    header { padding: 70px 0 50px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Drop 001 &nbsp;/&nbsp; Founder Edition</div>
+    <h1 class="hero">The Drop Model<br>Playbook</h1>
+    <p class="hero-sub">Positioning, pricing, and launch mechanics for atelier-meets-street brands — built for founders running a pre-order model on a small budget.</p>
+    <div class="buy-row">
+      <a href="#buy" class="cta">Get the guide — €29</a>
+      <div class="price"><span>Instant PDF · 5 chapters</span></div>
+    </div>
+  </header>
+
+  <section>
+    <div class="eyebrow">Contents</div>
+    <h2 class="section-title">What's inside</h2>
+    <ul class="toc">
+      <li>
+        <span class="num">01</span>
+        <span class="name">Positioning: atelier meets street</span>
+        <span class="desc">Why the highest-leverage lane for a small label is scarce and considered, not hyped — and how to test every piece of copy against it.</span>
+      </li>
+      <li>
+        <span class="num">02</span>
+        <span class="name">Pricing without heritage</span>
+        <span class="desc">The signals that let you charge premium prices before you have a heritage story to lean on.</span>
+      </li>
+      <li>
+        <span class="num">03</span>
+        <span class="name">The drop mechanic</span>
+        <span class="desc">Why pre-order drops are a cash-flow tool first and a marketing tool second, and the five-phase anatomy of a drop.</span>
+      </li>
+      <li>
+        <span class="num">04</span>
+        <span class="name">Sourcing premium packaging on a startup budget</span>
+        <span class="desc">A practical process for going direct to manufacturers, verifying suppliers, and getting comparable quotes.</span>
+      </li>
+      <li>
+        <span class="num">05</span>
+        <span class="name">Organic-first content on a small budget</span>
+        <span class="desc">The three jobs your content has to do without ad spend, and how to get weeks of material from one photo shoot.</span>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="eyebrow">For</div>
+    <h2 class="section-title">Who this is for</h2>
+    <div class="for-grid">
+      <div class="for-item">You're launching (or planning) a pre-order, drop-based clothing brand</div>
+      <div class="for-item">You want to price at €150+ without an existing brand heritage</div>
+      <div class="for-item">You're working with a small or no paid ad budget</div>
+      <div class="for-item">You're sourcing packaging or production overseas for the first time</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">A page from the guide</div>
+    <h2 class="section-title">Sample</h2>
+    <div class="sample">
+      <span class="label">Positioning test</span>
+      <p>Before you finalize any product description, ad, or caption, ask: "Does this read like it came from a mass retailer, or a small studio that only made 80 of these?" If it could have come from either, rewrite it.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Questions</div>
+    <h2 class="section-title">FAQ</h2>
+    <div class="faq-item">
+      <div class="faq-q">What format is it?</div>
+      <div class="faq-a">A PDF guide, delivered instantly after purchase. No physical shipping.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Is this specific to one country or platform?</div>
+      <div class="faq-a">The frameworks are platform-agnostic — they apply to Instagram, TikTok, or your own storefront, and to any sourcing region.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Do I need an existing brand to use this?</div>
+      <div class="faq-a">No. It's written for founders at the planning or early-launch stage, though an already-running label can apply it to the next drop.</div>
+    </div>
+  </section>
+
+  <div id="buy" class="final">
+    <h2>Plan your next drop with a clear framework, not guesswork.</h2>
+    <p class="hero-sub">Five chapters. One read. Apply it to your first drop or your fiftieth.</p>
+    <div class="buy-row">
+      <a href="#" class="cta">Get the guide — €29</a>
+    </div>
+  </div>
+
+  <footer>The Drop Model Playbook — Independent Founders Edition</footer>
+</div>
+
+</body>
+</html>
