@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Eternal Void Atelier">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="42%" r="60%">
+      <stop offset="0%" stop-color="#1a1815"/>
+      <stop offset="100%" stop-color="#0b0b0a"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e6c886"/>
+      <stop offset="45%" stop-color="#c6a15b"/>
+      <stop offset="100%" stop-color="#8a7145"/>
+    </linearGradient>
+    <mask id="eclipse">
+      <!-- show the full gold disc, then punch out an offset dark circle to leave a gold crescent -->
+      <circle cx="32" cy="32" r="19" fill="#fff"/>
+      <circle cx="38.5" cy="28.5" r="15.5" fill="#000"/>
+    </mask>
+  </defs>
+
+  <!-- Void field -->
+  <rect x="0" y="0" width="64" height="64" rx="13" fill="#0b0b0a"/>
+  <rect x="0" y="0" width="64" height="64" rx="13" fill="url(#glow)"/>
+  <!-- Hairline frame, atelier signature -->
+  <rect x="4.5" y="4.5" width="55" height="55" rx="10" fill="none" stroke="#c6a15b" stroke-opacity="0.28" stroke-width="1"/>
+
+  <!-- Faint outer ring / halo -->
+  <circle cx="32" cy="32" r="20.5" fill="none" stroke="#c6a15b" stroke-opacity="0.22" stroke-width="1"/>
+
+  <!-- The gold eclipse crescent -->
+  <g mask="url(#eclipse)">
+    <circle cx="32" cy="32" r="19" fill="url(#gold)"/>
+  </g>
+
+  <!-- Spark highlight -->
+  <circle cx="24.5" cy="24" r="1.5" fill="#fbeecb" fill-opacity="0.9"/>
+</svg>
