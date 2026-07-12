@@ -2,41 +2,53 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>The Drop Model Playbook — Eternal Void Atelier</title>
-<meta name="description" content="Positioning, pricing, garment and packaging sourcing, and launch mechanics for atelier-meets-street brands — built for founders running a pre-order drop model on a small budget.">
+<meta name="description" content="Positioning, pricing, garment and packaging sourcing, quality control, and launch mechanics for atelier-meets-street brands — built for founders running a pre-order drop model on a small budget.">
 <meta name="theme-color" content="#0b0b0a">
 <meta property="og:type" content="website">
 <meta property="og:title" content="The Drop Model Playbook">
-<meta property="og:description" content="Positioning, pricing, garment and packaging sourcing, and launch mechanics for atelier-meets-street brands on a pre-order drop model.">
+<meta property="og:description" content="Positioning, pricing, garment and packaging sourcing, quality control, and launch mechanics for atelier-meets-street brands on a pre-order drop model.">
 <meta property="og:site_name" content="Eternal Void Atelier">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="The Drop Model Playbook">
-<meta name="twitter:description" content="A six-chapter playbook for founders launching a pre-order, drop-based clothing brand on a small budget.">
+<meta name="twitter:description" content="A seven-chapter playbook for founders launching a pre-order, drop-based clothing brand on a small budget — including deep garment sourcing and quality control.">
 <meta name="robots" content="index, follow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
     --ink: #0b0b0a;
+    --ink-2: #100f0d;
     --paper: #efe9df;
     --paper-dim: #b9b2a4;
     --gold: #c6a15b;
+    --gold-soft: #d4b678;
     --gold-dim: #8a7145;
     --card: #141311;
     --card-line: #2a2822;
     --hair: #35322c;
+    --ease-lux: cubic-bezier(0.22, 1, 0.36, 1);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  html.no-smooth { scroll-behavior: auto; }
   body {
     background: var(--ink);
     color: var(--paper);
-    font-family: 'Inter', -apple-system, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
   }
+  body.menu-open { overflow: hidden; }
+
+  a { color: inherit; }
+  img { max-width: 100%; display: block; }
+
   .wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+
   .eyebrow {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 11px;
@@ -44,256 +56,617 @@
     text-transform: uppercase;
     color: var(--gold);
   }
-  header {
-    padding: 100px 0 70px;
-    border-bottom: 1px solid var(--hair);
+
+  /* ---------------- Scroll progress bar ---------------- */
+  .scroll-progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 2px; width: 0%;
+    background: linear-gradient(90deg, var(--gold-dim), var(--gold-soft));
+    box-shadow: 0 0 12px rgba(198,161,91,0.6);
+    z-index: 1600;
+    transition: width 0.1s linear;
   }
-  h1.hero {
+
+  /* ---------------- Top bar ---------------- */
+  .topbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1300;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px max(24px, env(safe-area-inset-right, 0px)) 14px max(24px, env(safe-area-inset-left, 0px));
+    background: linear-gradient(180deg, rgba(11,11,10,0.92), rgba(11,11,10,0.55) 70%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: background 0.4s ease, padding 0.4s ease;
+  }
+  .topbar.scrolled {
+    background: rgba(9,9,8,0.94);
+    border-bottom: 1px solid var(--hair);
+    padding-top: 11px; padding-bottom: 11px;
+  }
+  .brand {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--paper);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .brand b { color: var(--gold); font-weight: 500; }
+  .topbar-right { display: flex; align-items: center; gap: 14px; }
+  .topbar-cta {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ink);
+    background: var(--gold);
+    padding: 9px 16px;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: background 0.3s ease, transform 0.3s var(--ease-lux);
+  }
+  .topbar-cta:hover { background: var(--gold-soft); transform: translateY(-1px); }
+
+  /* ---------------- Hamburger toggle ---------------- */
+  .menu-toggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 42px; height: 42px;
+    padding: 10px 8px;
+    background: transparent;
+    border: 1px solid rgba(198,161,91,0.28);
+    border-radius: 2px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: border-color 0.3s ease, background 0.3s ease;
+  }
+  .menu-toggle:hover, .menu-toggle:focus-visible {
+    border-color: rgba(198,161,91,0.6);
+    background: rgba(198,161,91,0.06);
+    outline: none;
+  }
+  .menu-toggle-bar {
+    display: block; width: 100%; height: 1.5px;
+    background: var(--gold-soft);
+    transition: transform 0.34s var(--ease-lux), opacity 0.25s ease;
+  }
+  .menu-toggle[aria-expanded="true"] .menu-toggle-bar:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .menu-toggle[aria-expanded="true"] .menu-toggle-bar:nth-child(2) { opacity: 0; }
+  .menu-toggle[aria-expanded="true"] .menu-toggle-bar:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+  /* ---------------- Slide-in drawer ---------------- */
+  .menu-backdrop {
+    position: fixed; inset: 0; z-index: 1400;
+    background: rgba(0,0,0,0.62);
+    backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+    opacity: 0; visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+  }
+  body.menu-open .menu-backdrop { opacity: 1; visibility: visible; }
+
+  .drawer {
+    position: fixed; top: 0; right: 0; bottom: 0;
+    z-index: 1450;
+    width: min(86vw, 360px);
+    display: flex; flex-direction: column;
+    padding: calc(84px + env(safe-area-inset-top, 0px)) calc(24px + env(safe-area-inset-right, 0px)) calc(28px + env(safe-area-inset-bottom, 0px)) 24px;
+    background: linear-gradient(160deg, rgba(16,16,14,0.99), rgba(6,6,5,0.995));
+    border-left: 1px solid rgba(198,161,91,0.28);
+    box-shadow: -24px 0 70px rgba(0,0,0,0.65);
+    transform: translateX(102%);
+    visibility: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    transition: transform 0.5s var(--ease-lux), visibility 0.5s ease;
+  }
+  body.menu-open .drawer { transform: translateX(0); visibility: visible; }
+
+  .drawer-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9.5px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 18px;
+  }
+  .drawer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .drawer-links li { opacity: 0; transform: translateX(18px); }
+  body.menu-open .drawer-links li { animation: drawerItemIn 0.5s var(--ease-lux) forwards; }
+  body.menu-open .drawer-links li:nth-child(1) { animation-delay: 0.08s; }
+  body.menu-open .drawer-links li:nth-child(2) { animation-delay: 0.13s; }
+  body.menu-open .drawer-links li:nth-child(3) { animation-delay: 0.18s; }
+  body.menu-open .drawer-links li:nth-child(4) { animation-delay: 0.23s; }
+  body.menu-open .drawer-links li:nth-child(5) { animation-delay: 0.28s; }
+  body.menu-open .drawer-links li:nth-child(6) { animation-delay: 0.33s; }
+  body.menu-open .drawer-links li:nth-child(7) { animation-delay: 0.38s; }
+  @keyframes drawerItemIn { to { opacity: 1; transform: translateX(0); } }
+
+  /* Framed link with a travelling gold light around the border */
+  .drawer-link {
+    position: relative; isolation: isolate; overflow: hidden;
+    display: flex; align-items: baseline; gap: 12px;
+    padding: 14px 16px;
+    border-radius: 3px;
+    border: 1px solid rgba(198,161,91,0.2);
+    background: linear-gradient(180deg, rgba(198,161,91,0.05), rgba(255,255,255,0.012));
+    text-decoration: none; color: var(--paper);
+    font-family: 'Fraunces', serif; font-size: 20px; font-weight: 400; letter-spacing: 0.2px;
+    transition: color 0.3s ease, border-color 0.3s ease, background 0.3s ease, transform 0.3s var(--ease-lux);
+  }
+  .drawer-link .idx {
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--gold); letter-spacing: 1px;
+    flex: 0 0 auto;
+  }
+  .drawer-link:hover, .drawer-link:focus-visible {
+    color: var(--gold-soft);
+    border-color: rgba(198,161,91,0.5);
+    background: linear-gradient(180deg, rgba(198,161,91,0.13), rgba(198,161,91,0.03));
+    transform: translateX(5px);
+    outline: none;
+  }
+  /* Travelling gold light: a rotating conic sheen clipped to the border */
+  .drawer-link::before {
+    content: ""; position: absolute; inset: -1px; z-index: -1; border-radius: 3px;
+    padding: 1px;
+    background: conic-gradient(from var(--ang, 0deg), transparent 0deg, transparent 300deg, var(--gold-soft) 340deg, #fff5e0 350deg, var(--gold-soft) 360deg);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    opacity: 0; transition: opacity 0.35s ease;
+    animation: drawerTravel 3.2s linear infinite;
+  }
+  .drawer-link:hover::before, .drawer-link:focus-visible::before { opacity: 1; }
+  @property --ang { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+  @keyframes drawerTravel { to { --ang: 360deg; } }
+
+  .drawer-cta {
+    margin-top: 22px;
+    position: relative; overflow: hidden; isolation: isolate;
+    display: block; text-align: center; text-decoration: none;
+    background: var(--gold); color: var(--ink);
+    font-family: 'Inter', sans-serif; font-weight: 600; font-size: 15px; letter-spacing: 0.3px;
+    padding: 16px 20px; border-radius: 2px;
+    transition: background 0.3s ease, transform 0.3s var(--ease-lux);
+  }
+  .drawer-cta:hover { transform: translateY(-2px); }
+  .drawer-cta::after {
+    content: ""; position: absolute; top: 0; left: -60%; width: 45%; height: 100%;
+    background: linear-gradient(100deg, transparent, rgba(255,255,255,0.55), transparent);
+    transform: skewX(-18deg);
+    animation: ctaSheen 3.4s ease-in-out infinite;
+  }
+  @keyframes ctaSheen { 0% { left: -60%; } 55%,100% { left: 130%; } }
+  .drawer-foot {
+    margin-top: auto; padding-top: 26px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1px;
+    color: var(--paper-dim);
+  }
+
+  /* ---------------- Hero ---------------- */
+  header.hero {
+    padding: 150px 0 78px;
+    border-bottom: 1px solid var(--hair);
+    position: relative;
+    overflow: hidden;
+  }
+  header.hero::before {
+    content: ""; position: absolute; top: -20%; left: 50%; transform: translateX(-50%);
+    width: 120%; height: 80%;
+    background: radial-gradient(60% 60% at 50% 0%, rgba(198,161,91,0.12), transparent 70%);
+    pointer-events: none;
+  }
+  h1.hero-title {
     font-family: 'Fraunces', serif;
     font-weight: 400;
-    font-size: 52px;
-    line-height: 1.06;
+    font-size: clamp(38px, 8vw, 58px);
+    line-height: 1.04;
     letter-spacing: -0.5px;
     margin: 22px 0 24px;
   }
   .hero-sub {
-    font-size: 17px;
+    font-size: clamp(15px, 3.6vw, 17px);
     color: var(--paper-dim);
-    max-width: 480px;
+    max-width: 500px;
     margin-bottom: 40px;
   }
-  .buy-row {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-  .price {
-    font-family: 'Fraunces', serif;
-    font-size: 28px;
-    color: var(--gold);
-  }
+  .buy-row { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .price { font-family: 'Fraunces', serif; font-size: 28px; color: var(--gold); }
   .price span {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    color: var(--paper-dim);
-    display: block;
-    letter-spacing: 1px;
-    margin-top: 2px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--paper-dim);
+    display: block; letter-spacing: 1px; margin-top: 2px;
   }
+
+  /* Primary CTA with travelling sheen */
   .cta {
+    position: relative; overflow: hidden; isolation: isolate;
     display: inline-block;
-    background: var(--gold);
-    color: var(--ink);
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    font-size: 15px;
-    padding: 15px 30px;
-    border-radius: 2px;
-    text-decoration: none;
-    letter-spacing: 0.2px;
+    background: var(--gold); color: var(--ink);
+    font-family: 'Inter', sans-serif; font-weight: 600; font-size: 15px;
+    padding: 15px 30px; border-radius: 2px;
+    text-decoration: none; letter-spacing: 0.2px;
+    transition: background 0.3s ease, transform 0.3s var(--ease-lux), box-shadow 0.3s ease;
   }
-  .cta:hover { background: #d6b16c; }
-  section { padding: 64px 0; border-bottom: 1px solid var(--hair); }
+  .cta:hover { background: var(--gold-soft); transform: translateY(-2px); box-shadow: 0 14px 34px rgba(198,161,91,0.25); }
+  .cta::after {
+    content: ""; position: absolute; top: 0; left: -60%; width: 42%; height: 100%;
+    background: linear-gradient(100deg, transparent, rgba(255,255,255,0.5), transparent);
+    transform: skewX(-18deg); animation: ctaSheen 3.8s ease-in-out infinite;
+  }
+
+  /* ---------------- Sections ---------------- */
+  section { padding: 66px 0; border-bottom: 1px solid var(--hair); scroll-margin-top: 72px; }
   section:last-of-type { border-bottom: none; }
   h2.section-title {
-    font-family: 'Fraunces', serif;
-    font-weight: 400;
-    font-size: 28px;
-    margin: 10px 0 34px;
+    font-family: 'Fraunces', serif; font-weight: 400;
+    font-size: clamp(24px, 5.5vw, 30px); margin: 10px 0 14px;
   }
-  .toc {
-    list-style: none;
-  }
+  .section-lede { color: var(--paper-dim); max-width: 560px; margin-bottom: 30px; font-size: 15.5px; }
+
+  /* TOC */
+  .toc { list-style: none; }
   .toc li {
-    display: grid;
-    grid-template-columns: 46px 1fr;
-    gap: 18px;
-    padding: 18px 0;
-    border-top: 1px solid var(--hair);
-    align-items: baseline;
+    display: grid; grid-template-columns: 46px 1fr; gap: 18px;
+    padding: 18px 0; border-top: 1px solid var(--hair); align-items: baseline;
   }
   .toc li:last-child { border-bottom: 1px solid var(--hair); }
-  .toc .num {
-    font-family: 'IBM Plex Mono', monospace;
-    color: var(--gold);
-    font-size: 13px;
+  .toc .num { font-family: 'IBM Plex Mono', monospace; color: var(--gold); font-size: 13px; }
+  .toc .name { font-size: 16px; }
+  .toc .desc { color: var(--paper-dim); font-size: 14px; grid-column: 2; margin-top: 4px; }
+
+  /* Feature cards (sourcing + quality highlight) */
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .card {
+    background: var(--card); border: 1px solid var(--card-line);
+    border-radius: 4px; padding: 26px 24px;
+    position: relative; overflow: hidden;
+    transition: border-color 0.4s ease, transform 0.4s var(--ease-lux);
   }
-  .toc .name {
-    font-size: 16px;
+  .card:hover { border-color: rgba(198,161,91,0.4); transform: translateY(-3px); }
+  .card::after {
+    content: ""; position: absolute; left: 0; top: 0; height: 100%; width: 3px;
+    background: linear-gradient(180deg, var(--gold), transparent);
+    opacity: 0.5;
   }
-  .toc .desc {
-    color: var(--paper-dim);
-    font-size: 14px;
-    grid-column: 2;
-    margin-top: 4px;
+  .card .cnum { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--gold); letter-spacing: 2px; }
+  .card h3 { font-family: 'Fraunces', serif; font-weight: 400; font-size: 20px; margin: 12px 0 10px; }
+  .card p { color: var(--paper-dim); font-size: 14.5px; margin-bottom: 14px; }
+  .card ul { list-style: none; }
+  .card ul li {
+    font-size: 13.5px; color: var(--paper-dim); padding-left: 20px; position: relative; margin-bottom: 8px;
   }
-  .for-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px 32px;
+  .card ul li::before {
+    content: ""; position: absolute; left: 0; top: 7px; width: 7px; height: 7px;
+    border: 1px solid var(--gold); background: transparent;
   }
-  .for-item {
-    font-size: 15px;
-    padding-left: 22px;
-    position: relative;
-    color: var(--paper-dim);
-  }
+
+  /* For grid */
+  .for-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 32px; }
+  .for-item { font-size: 15px; padding-left: 22px; position: relative; color: var(--paper-dim); }
   .for-item::before {
-    content: "";
-    position: absolute;
-    left: 0; top: 8px;
-    width: 8px; height: 8px;
-    border: 1px solid var(--gold);
+    content: ""; position: absolute; left: 0; top: 8px; width: 8px; height: 8px; border: 1px solid var(--gold);
   }
+
+  /* Sample */
   .sample {
-    background: var(--card);
-    border: 1px solid var(--card-line);
-    border-left: 3px solid var(--gold);
-    padding: 22px 26px;
-    font-size: 15px;
+    background: var(--card); border: 1px solid var(--card-line); border-left: 3px solid var(--gold);
+    padding: 24px 28px; font-size: 15px; border-radius: 0 4px 4px 0;
   }
   .sample .label {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--gold);
-    display: block;
-    margin-bottom: 10px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--gold); display: block; margin-bottom: 12px;
   }
   .sample p { color: var(--paper-dim); }
+  .sample p + p { margin-top: 12px; }
+
+  /* FAQ */
   .faq-item { padding: 20px 0; border-top: 1px solid var(--hair); }
   .faq-item:last-child { border-bottom: 1px solid var(--hair); }
   .faq-q { font-weight: 600; font-size: 15px; margin-bottom: 6px; }
   .faq-a { font-size: 14px; color: var(--paper-dim); }
-  .final {
-    text-align: center;
-    padding: 90px 0 100px;
-  }
+
+  /* Final */
+  .final { text-align: center; padding: 96px 0 108px; border-bottom: none; }
   .final h2 {
-    font-family: 'Fraunces', serif;
-    font-weight: 400;
-    font-size: 34px;
-    margin: 0 0 16px;
-    max-width: 460px;
-    margin-left: auto;
-    margin-right: auto;
+    font-family: 'Fraunces', serif; font-weight: 400; font-size: clamp(26px, 6vw, 36px);
+    margin: 0 auto 16px; max-width: 480px;
   }
   .final .hero-sub { margin: 0 auto 32px; text-align: center; }
   .final .buy-row { justify-content: center; }
+
   footer {
-    text-align: center;
-    padding: 30px 0 60px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 1px;
-    color: var(--paper-dim);
+    text-align: center; padding: 34px 0 calc(60px + env(safe-area-inset-bottom, 0px));
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 1px; color: var(--paper-dim);
+  }
+
+  /* ---------------- Cinematic scroll reveal ---------------- */
+  .reveal { opacity: 0; transform: translateY(34px); transition: opacity 0.9s var(--ease-lux), transform 0.9s var(--ease-lux); will-change: opacity, transform; }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+  .reveal.d1 { transition-delay: 0.08s; }
+  .reveal.d2 { transition-delay: 0.16s; }
+  .reveal.d3 { transition-delay: 0.24s; }
+
+  /* Respect explicit reduced-motion class only (effects show by default on all platforms) */
+  html.reduce-motion .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+  html.reduce-motion .cta::after, html.reduce-motion .drawer-cta::after, html.reduce-motion .drawer-link::before { animation: none !important; }
+
+  /* ---------------- Responsive ---------------- */
+  @media (max-width: 720px) {
+    .topbar-cta { display: none; }
   }
   @media (max-width: 600px) {
-    h1.hero { font-size: 36px; }
-    .for-grid { grid-template-columns: 1fr; }
-    header { padding: 70px 0 50px; }
+    header.hero { padding: 128px 0 56px; }
+    .cards, .for-grid { grid-template-columns: 1fr; }
+    section { padding: 52px 0; }
+    .sample { padding: 20px 20px; }
+  }
+  @media (min-width: 721px) {
+    /* On desktop keep the hamburger — it's the primary nav — but widen tap comfort */
+    .menu-toggle { width: 44px; height: 44px; }
+  }
+  /* Larger screens: give content a touch more air */
+  @media (min-width: 1000px) {
+    header.hero { padding: 168px 0 90px; }
   }
 </style>
 </head>
 <body>
 
-<div class="wrap">
-  <header>
-    <div class="eyebrow">Drop 001 &nbsp;/&nbsp; Founder Edition</div>
-    <h1 class="hero">The Drop Model<br>Playbook</h1>
-    <p class="hero-sub">Positioning, pricing, garment and packaging sourcing, and launch mechanics for atelier-meets-street brands — built for founders running a pre-order model on a small budget.</p>
-    <div class="buy-row">
-      <a href="#buy" class="cta">Get the guide — €29</a>
-      <div class="price"><span>Instant PDF · 6 chapters</span></div>
-    </div>
-  </header>
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
-  <section>
-    <div class="eyebrow">Contents</div>
-    <h2 class="section-title">What's inside</h2>
-    <ul class="toc">
-      <li>
-        <span class="num">01</span>
-        <span class="name">Positioning: atelier meets street</span>
-        <span class="desc">Why the highest-leverage lane for a small label is scarce and considered, not hyped — and how to test every piece of copy against it.</span>
-      </li>
-      <li>
-        <span class="num">02</span>
-        <span class="name">Pricing without heritage</span>
-        <span class="desc">The signals that let you charge premium prices before you have a heritage story to lean on.</span>
-      </li>
-      <li>
-        <span class="num">03</span>
-        <span class="name">The drop mechanic</span>
-        <span class="desc">Why pre-order drops are a cash-flow tool first and a marketing tool second, and the five-phase anatomy of a drop.</span>
-      </li>
-      <li>
-        <span class="num">04</span>
-        <span class="name">Sourcing garment production</span>
-        <span class="desc">OEM vs. ODM, vetting a cut-and-sew factory, fabric sourcing trade-offs, and catching quality issues before a full run ships.</span>
-      </li>
-      <li>
-        <span class="num">05</span>
-        <span class="name">Sourcing premium packaging on a startup budget</span>
-        <span class="desc">A practical process for going direct to manufacturers, verifying suppliers, and getting comparable quotes.</span>
-      </li>
-      <li>
-        <span class="num">06</span>
-        <span class="name">Organic-first content on a small budget</span>
-        <span class="desc">The three jobs your content has to do without ad spend, and how to get weeks of material from one photo shoot.</span>
-      </li>
-    </ul>
-  </section>
-
-  <section>
-    <div class="eyebrow">For</div>
-    <h2 class="section-title">Who this is for</h2>
-    <div class="for-grid">
-      <div class="for-item">You're launching (or planning) a pre-order, drop-based clothing brand</div>
-      <div class="for-item">You want to price at €150+ without an existing brand heritage</div>
-      <div class="for-item">You're working with a small or no paid ad budget</div>
-      <div class="for-item">You're sourcing packaging or production overseas for the first time</div>
-    </div>
-  </section>
-
-  <section>
-    <div class="eyebrow">A page from the guide</div>
-    <h2 class="section-title">Sample</h2>
-    <div class="sample">
-      <span class="label">Positioning test</span>
-      <p>Before you finalize any product description, ad, or caption, ask: "Does this read like it came from a mass retailer, or a small studio that only made 80 of these?" If it could have come from either, rewrite it.</p>
-    </div>
-  </section>
-
-  <section>
-    <div class="eyebrow">Questions</div>
-    <h2 class="section-title">FAQ</h2>
-    <div class="faq-item">
-      <div class="faq-q">What format is it?</div>
-      <div class="faq-a">A PDF guide, delivered instantly after purchase. No physical shipping.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q">Is this specific to one country or platform?</div>
-      <div class="faq-a">The frameworks are platform-agnostic — they apply to Instagram, TikTok, or your own storefront, and to any sourcing region.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q">Do I need an existing brand to use this?</div>
-      <div class="faq-a">No. It's written for founders at the planning or early-launch stage, though an already-running label can apply it to the next drop.</div>
-    </div>
-  </section>
-
-  <div id="buy" class="final">
-    <h2>Plan your next drop with a clear framework, not guesswork.</h2>
-    <p class="hero-sub">Six chapters. One read. Apply it to your first drop or your fiftieth.</p>
-    <div class="buy-row">
-      <a href="#" class="cta">Get the guide — €29</a>
-    </div>
+<!-- ===== Top bar ===== -->
+<div class="topbar" id="topbar">
+  <a class="brand" href="#top"><b>Eternal Void</b> Atelier</a>
+  <div class="topbar-right">
+    <a class="topbar-cta" href="#buy">Get the guide — €29</a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false" aria-controls="drawer">
+      <span class="menu-toggle-bar"></span>
+      <span class="menu-toggle-bar"></span>
+      <span class="menu-toggle-bar"></span>
+    </button>
   </div>
-
-  <footer>The Drop Model Playbook — Independent Founders Edition</footer>
 </div>
 
+<!-- ===== Drawer ===== -->
+<div class="menu-backdrop" id="menuBackdrop" tabindex="-1"></div>
+<nav class="drawer" id="drawer" aria-label="Playbook navigation" aria-hidden="true">
+  <div class="drawer-label">The Drop Model Playbook</div>
+  <ul class="drawer-links">
+    <li><a class="drawer-link" href="#contents"><span class="idx">01</span>What's inside</a></li>
+    <li><a class="drawer-link" href="#sourcing"><span class="idx">02</span>Sourcing &amp; quality</a></li>
+    <li><a class="drawer-link" href="#who"><span class="idx">03</span>Who it's for</a></li>
+    <li><a class="drawer-link" href="#sample"><span class="idx">04</span>A page from the guide</a></li>
+    <li><a class="drawer-link" href="#faq"><span class="idx">05</span>FAQ</a></li>
+    <li><a class="drawer-link" href="#buy"><span class="idx">06</span>Get the guide</a></li>
+  </ul>
+  <a class="drawer-cta" href="#buy">Get the guide — €29</a>
+  <div class="drawer-foot">Instant PDF · 7 chapters · Founder Edition</div>
+</nav>
+
+<!-- ===== Hero ===== -->
+<div class="wrap" id="top">
+  <header class="hero">
+    <div class="eyebrow reveal">Drop 001 &nbsp;/&nbsp; Founder Edition</div>
+    <h1 class="hero-title reveal d1">The Drop Model<br>Playbook</h1>
+    <p class="hero-sub reveal d2">Positioning, pricing, garment and packaging sourcing, quality control, and launch mechanics for atelier-meets-street brands — built for founders running a pre-order model on a small budget.</p>
+    <div class="buy-row reveal d3">
+      <a href="#buy" class="cta">Get the guide — €29</a>
+      <div class="price"><span>Instant PDF · 7 chapters</span></div>
+    </div>
+  </header>
+</div>
+
+<!-- ===== Contents ===== -->
+<div class="wrap">
+  <section id="contents">
+    <div class="eyebrow reveal">Contents</div>
+    <h2 class="section-title reveal">What's inside</h2>
+    <ul class="toc">
+      <li class="reveal"><span class="num">01</span><span class="name">Positioning: atelier meets street</span>
+        <span class="desc">Why the highest-leverage lane for a small label is scarce and considered, not hyped — and the one-line test every piece of copy has to pass.</span></li>
+      <li class="reveal"><span class="num">02</span><span class="name">Pricing without heritage</span>
+        <span class="desc">The signals that let you charge premium before you have a heritage story, and how to build a price from the garment up.</span></li>
+      <li class="reveal"><span class="num">03</span><span class="name">The drop mechanic</span>
+        <span class="desc">Why pre-order drops are a cash-flow tool first and marketing second, and the five-phase anatomy of a drop that funds itself.</span></li>
+      <li class="reveal"><span class="num">04</span><span class="name">Sourcing garment production</span>
+        <span class="desc">OEM vs ODM, finding and vetting a cut-and-sew factory, tech packs, MOQs, fabric trade-offs, and the sampling rounds you never skip.</span></li>
+      <li class="reveal"><span class="num">05</span><span class="name">Quality: specifying &amp; controlling it</span>
+        <span class="desc">How to define "good" in numbers, read a garment like an inspector, run an AQL check, and catch defects before a full run ships.</span></li>
+      <li class="reveal"><span class="num">06</span><span class="name">Premium packaging on a startup budget</span>
+        <span class="desc">Going direct to manufacturers, verifying suppliers, getting comparable quotes, and where to spend the last €200.</span></li>
+      <li class="reveal"><span class="num">07</span><span class="name">Organic-first content</span>
+        <span class="desc">The three jobs your content must do without ad spend, and how to get weeks of material from one shoot.</span></li>
+    </ul>
+  </section>
+</div>
+
+<!-- ===== Sourcing & Quality highlight ===== -->
+<div class="wrap">
+  <section id="sourcing">
+    <div class="eyebrow reveal">The operational core</div>
+    <h2 class="section-title reveal">Sourcing clothing &amp; controlling quality</h2>
+    <p class="section-lede reveal">Most brand guides stop at strategy. Two full chapters here go deep on the part that actually decides whether your garment is worth its price — how to source production and how to make quality the default, not a lucky outcome.</p>
+    <div class="cards">
+      <div class="card reveal d1">
+        <div class="cnum">CHAPTER 04</div>
+        <h3>Sourcing garment production</h3>
+        <p>Everything between "I have a design" and "boxes arrive at my door" — without getting quietly overcharged along the way.</p>
+        <ul>
+          <li>OEM cut-&amp;-sew vs ODM private label — and which your hero piece needs</li>
+          <li>Finding real factories vs trading companies, and the questions that expose the difference</li>
+          <li>Building a tech pack that removes ambiguity — flats, points of measure, BOM, Pantone</li>
+          <li>MOQs, and how to keep them survivable on a first drop</li>
+          <li>Fabric trade-offs: GSM, fiber, finish, shrinkage — what to specify and why</li>
+          <li>The three sampling rounds and the "golden sample" rule</li>
+        </ul>
+      </div>
+      <div class="card reveal d2">
+        <div class="cnum">CHAPTER 05</div>
+        <h3>Quality: specifying &amp; controlling it</h3>
+        <p>"High quality" isn't a wish you send the factory. It's numbers, tolerances, and checks that make good product the default.</p>
+        <ul>
+          <li>Defining quality in three measurable dimensions — material, construction, dimensional</li>
+          <li>Reading a garment like an inspector: where every fault hides</li>
+          <li>AQL explained — how professionals accept or reject a batch</li>
+          <li>Critical / major / minor defects and the tolerances that matter</li>
+          <li>When to inspect: PP, during-production, and pre-shipment</li>
+          <li>Why your leverage lives entirely in the balance payment</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ===== Who it's for ===== -->
+<div class="wrap">
+  <section id="who">
+    <div class="eyebrow reveal">For</div>
+    <h2 class="section-title reveal">Who this is for</h2>
+    <div class="for-grid">
+      <div class="for-item reveal">You're launching (or planning) a pre-order, drop-based clothing brand</div>
+      <div class="for-item reveal d1">You want to price at €150+ without an existing brand heritage</div>
+      <div class="for-item reveal">You're working with a small or no paid ad budget</div>
+      <div class="for-item reveal d1">You're sourcing production or packaging overseas for the first time</div>
+    </div>
+  </section>
+</div>
+
+<!-- ===== Sample ===== -->
+<div class="wrap">
+  <section id="sample">
+    <div class="eyebrow reveal">A page from the guide</div>
+    <h2 class="section-title reveal">Sample</h2>
+    <div class="sample reveal d1">
+      <span class="label">From Chapter 05 — Quality</span>
+      <p>You can't inspect 100% of a run by hand, and you don't need to. The industry standard is AQL — Acceptable Quality Limit — a sampling method that tells you how many units to pull and how many defects allow you to accept or reject the batch.</p>
+      <p>Even at your scale, sort every fault into critical / major / minor and hold the factory to a written AQL standard in your PO. It converts "I'm not happy with these" into "this batch fails the AQL 2.5 major standard we agreed" — a conversation you can actually win. And inspect <em>before</em> you release the balance payment. Once the money and the goods have both left, "please fix these" becomes "please, if you feel like it."</p>
+    </div>
+  </section>
+</div>
+
+<!-- ===== FAQ ===== -->
+<div class="wrap">
+  <section id="faq">
+    <div class="eyebrow reveal">Questions</div>
+    <h2 class="section-title reveal">FAQ</h2>
+    <div class="reveal d1">
+      <div class="faq-item">
+        <div class="faq-q">What format is it?</div>
+        <div class="faq-a">A polished PDF guide — seven chapters plus a printable appendix of checklists and templates — delivered instantly after purchase. No physical shipping.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How deep does the sourcing and quality material go?</div>
+        <div class="faq-a">Deep enough to act on. You get tech-pack and factory-vetting checklists, an AQL quick-reference, a cost-sheet template, and a pre-shipment inspection checklist — the exact questions to ask and numbers to hold, not vague theory.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Is this specific to one country or platform?</div>
+        <div class="faq-a">The frameworks are platform- and region-agnostic — they apply to Instagram, TikTok, or your own storefront, and to any sourcing region.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Do I need an existing brand to use this?</div>
+        <div class="faq-a">No. It's written for founders at the planning or early-launch stage, though an already-running label can apply it to the next drop.</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ===== Buy ===== -->
+<div class="wrap">
+  <section id="buy" class="final">
+    <h2 class="reveal">Plan your next drop with a clear framework, not guesswork.</h2>
+    <p class="hero-sub reveal d1">Seven chapters. One read. Apply it to your first drop or your fiftieth — from positioning all the way to the inspection you run before you pay the balance.</p>
+    <div class="buy-row reveal d2">
+      <a href="#" class="cta">Get the guide — €29</a>
+    </div>
+  </section>
+</div>
+
+<footer>The Drop Model Playbook — Independent Founders Edition</footer>
+
+<script>
+(function () {
+  var body = document.body;
+  var toggle = document.getElementById('menuToggle');
+  var drawer = document.getElementById('drawer');
+  var backdrop = document.getElementById('menuBackdrop');
+  var topbar = document.getElementById('topbar');
+  var progress = document.getElementById('scrollProgress');
+
+  /* ---- Drawer open/close ---- */
+  function openMenu() {
+    body.classList.add('menu-open');
+    toggle.setAttribute('aria-expanded', 'true');
+    toggle.setAttribute('aria-label', 'Close menu');
+    drawer.setAttribute('aria-hidden', 'false');
+  }
+  function closeMenu() {
+    body.classList.remove('menu-open');
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-label', 'Open menu');
+    drawer.setAttribute('aria-hidden', 'true');
+  }
+  function toggleMenu() {
+    if (body.classList.contains('menu-open')) { closeMenu(); } else { openMenu(); }
+  }
+  toggle.addEventListener('click', toggleMenu);
+  backdrop.addEventListener('click', closeMenu);
+  drawer.addEventListener('click', function (e) {
+    var link = e.target.closest('a');
+    if (link) { closeMenu(); }
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && body.classList.contains('menu-open')) { closeMenu(); }
+  });
+
+  /* ---- Top bar shadow + scroll progress ---- */
+  var ticking = false;
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () {
+      var y = window.pageYOffset || document.documentElement.scrollTop;
+      if (y > 20) { topbar.classList.add('scrolled'); } else { topbar.classList.remove('scrolled'); }
+      var h = document.documentElement.scrollHeight - window.innerHeight;
+      var pct = h > 0 ? (y / h) * 100 : 0;
+      progress.style.width = pct + '%';
+      ticking = false;
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ---- Cinematic scroll reveal (works on every platform) ---- */
+  var reveals = [].slice.call(document.querySelectorAll('.reveal'));
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    reveals.forEach(function (el) { io.observe(el); });
+  } else {
+    reveals.forEach(function (el) { el.classList.add('in'); });
+  }
+
+  /* ---- Smooth-scroll offset for the fixed bar on anchor clicks ---- */
+  document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var id = a.getAttribute('href');
+      if (id === '#' || id.length < 2) return;
+      var target = document.querySelector(id);
+      if (!target) return;
+      e.preventDefault();
+      var top = target.getBoundingClientRect().top + window.pageYOffset - 64;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+    });
+  });
+})();
+</script>
 </body>
 </html>
