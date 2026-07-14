@@ -12,7 +12,7 @@
 <meta property="og:site_name" content="Eternal Void Atelier">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="The Drop Model Playbook">
-<meta name="twitter:description" content="A seven-chapter playbook for founders launching a pre-order, drop-based clothing brand on a small budget — including deep garment sourcing and quality control.">
+<meta name="twitter:description" content="A seven-chapter, interactive PDF playbook for founders launching a pre-order clothing brand — deep garment sourcing and quality control, with clickable contents, bookmarks, and seven custom figures.">
 <meta name="robots" content="index, follow">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -347,6 +347,43 @@
     border: 1px solid var(--gold); background: transparent;
   }
 
+  /* Feature card with icon (the-document section) */
+  .feature-ico { width: 30px; height: 30px; color: var(--gold); display: block; margin-bottom: 14px; }
+  .feature-ico svg { width: 100%; height: 100%; display: block; }
+  .card.feature h3 { margin-top: 0; }
+
+  /* Spec strip */
+  .spec-strip {
+    display: flex; flex-wrap: wrap; gap: 12px 28px;
+    margin-top: 30px; padding-top: 24px; border-top: 1px solid var(--hair);
+  }
+  .spec-strip .spec {
+    font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.5px; color: var(--paper-dim);
+  }
+  .spec-strip .spec b { color: var(--gold); font-weight: 500; }
+
+  /* Figure preview (teaser of an in-PDF figure) */
+  .fig-preview {
+    margin-top: 26px; position: relative; overflow: hidden;
+    background: linear-gradient(180deg, #17150f, #100f0d);
+    border: 1px solid var(--card-line); border-radius: 6px; padding: 22px 24px 18px;
+  }
+  .fig-preview::before {
+    content: ""; position: absolute; left: 0; top: 20px; bottom: 20px; width: 2px;
+    background: linear-gradient(180deg, var(--gold), transparent);
+  }
+  .fig-preview .fp-kicker {
+    font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 4px;
+  }
+  .fig-preview .fp-title { font-family: 'Fraunces', serif; font-size: 18px; color: var(--paper); margin-bottom: 16px; }
+  .fig-preview svg { width: 100%; height: auto; display: block; overflow: visible; }
+  .fig-preview .fp-cap {
+    margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--card-line);
+    font-size: 13px; line-height: 1.5; color: var(--paper-dim);
+  }
+  .fig-preview .fp-cap b { color: var(--paper); font-weight: 600; }
+
   /* For grid */
   .for-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 32px; }
   .for-item { font-size: 15px; padding-left: 22px; position: relative; color: var(--paper-dim); }
@@ -441,13 +478,14 @@
   <ul class="drawer-links">
     <li><a class="drawer-link" href="#contents"><span class="idx">01</span>What's inside</a></li>
     <li><a class="drawer-link" href="#sourcing"><span class="idx">02</span>Sourcing &amp; quality</a></li>
-    <li><a class="drawer-link" href="#who"><span class="idx">03</span>Who it's for</a></li>
-    <li><a class="drawer-link" href="#sample"><span class="idx">04</span>A page from the guide</a></li>
-    <li><a class="drawer-link" href="#faq"><span class="idx">05</span>FAQ</a></li>
-    <li><a class="drawer-link" href="#buy"><span class="idx">06</span>Get the guide</a></li>
+    <li><a class="drawer-link" href="#craft"><span class="idx">03</span>The document</a></li>
+    <li><a class="drawer-link" href="#who"><span class="idx">04</span>Who it's for</a></li>
+    <li><a class="drawer-link" href="#sample"><span class="idx">05</span>A page from the guide</a></li>
+    <li><a class="drawer-link" href="#faq"><span class="idx">06</span>FAQ</a></li>
+    <li><a class="drawer-link" href="#buy"><span class="idx">07</span>Get the guide</a></li>
   </ul>
   <a class="drawer-cta" href="#buy">Get the guide — €29</a>
-  <div class="drawer-foot">Instant PDF · 7 chapters · Founder Edition</div>
+  <div class="drawer-foot">Instant PDF · 26 pages · interactive · Founder Edition</div>
 </nav>
 
 <!-- ===== Hero ===== -->
@@ -458,7 +496,7 @@
     <p class="hero-sub reveal d2">Positioning, pricing, garment and packaging sourcing, quality control, and launch mechanics for atelier-meets-street brands — built for founders running a pre-order model on a small budget.</p>
     <div class="buy-row reveal d3">
       <a href="#buy" class="cta">Get the guide — €29</a>
-      <div class="price"><span>Instant PDF · 7 chapters</span></div>
+      <div class="price"><span>Instant PDF · 26 pages · interactive</span></div>
     </div>
   </header>
 </div>
@@ -524,6 +562,69 @@
   </section>
 </div>
 
+<!-- ===== The document (craft + interactivity) ===== -->
+<div class="wrap">
+  <section id="craft">
+    <div class="eyebrow reveal">The document</div>
+    <h2 class="section-title reveal">Built like a product, not a PDF</h2>
+    <p class="section-lede reveal">Most guides are a wall of text exported straight from a doc editor. This one is designed and engineered — a dark, typeset volume you can navigate like an app, with custom illustrations that make the frameworks click.</p>
+    <div class="cards">
+      <div class="card feature reveal d1">
+        <span class="feature-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="7" x2="20" y2="7"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="8" y1="17" x2="16" y2="17"/><circle cx="4" cy="7" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="17" r="1"/></svg></span>
+        <h3>Interactive contents</h3>
+        <p>The table of contents is live. Tap any chapter and it jumps you straight there — no scrolling through 26 pages to find the AQL checklist.</p>
+      </div>
+      <div class="card feature reveal d2">
+        <span class="feature-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z"/></svg></span>
+        <h3>Bookmarked navigation</h3>
+        <p>A full outline panel is baked in — every chapter and sub-section nested in your reader's sidebar, so you can flick between "MOQs" and "Wash test" in a click.</p>
+      </div>
+      <div class="card feature reveal d1">
+        <span class="feature-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V4"/><path d="M4 20h16"/><path d="M7 15l4-5 3 3 5-7"/></svg></span>
+        <h3>Custom figures &amp; data-viz</h3>
+        <p>Seven hand-drawn illustrations — a cash-flow graph, a garment inspection map, an AQL severity pyramid — that turn the theory into something you can see.</p>
+      </div>
+      <div class="card feature reveal d2">
+        <span class="feature-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18 6 6 0 0 1 0-18z" fill="currentColor" stroke="none"/></svg></span>
+        <h3>A considered dark design</h3>
+        <p>Typeset in Fraunces and Plex Mono on a full-bleed ink field with gold detailing — easy on the eyes, dark-mode friendly, and a pleasure to keep open beside you.</p>
+      </div>
+    </div>
+
+    <div class="fig-preview reveal d1">
+      <div class="fp-kicker">One of seven figures inside</div>
+      <div class="fp-title">Cash position across one drop cycle</div>
+      <svg viewBox="0 0 680 300" role="img" aria-label="Sample figure: line graph comparing a pre-order model against a buy-inventory model">
+        <path d="M60,156 L160,150 L300,92 L430,128 L560,116 L650,108 L650,160 L60,160 Z" fill="#c6a15b" fill-opacity="0.12"/>
+        <path d="M160,232 L300,224 L430,205 L560,182 L650,158 L650,160 L160,160 Z" fill="#a5442f" fill-opacity="0.12"/>
+        <line x1="60" y1="160" x2="650" y2="160" stroke="#5a5140" stroke-width="1" stroke-dasharray="4 3"/>
+        <text x="60" y="152" font-family="'IBM Plex Mono', monospace" font-size="8.5" fill="#a49d8e">€0 CASH</text>
+        <line x1="60" y1="46" x2="60" y2="252" stroke="#35322c" stroke-width="1"/>
+        <polyline points="60,156 160,232 300,224 430,205 560,182 650,158" fill="none" stroke="#8a8172" stroke-width="2" stroke-dasharray="5 4" stroke-linecap="round" stroke-linejoin="round"/>
+        <polyline points="60,156 160,150 300,92 430,128 560,116 650,108" fill="none" stroke="#dcbb7a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <g fill="#dcbb7a"><circle cx="300" cy="92" r="3.5"/><circle cx="650" cy="108" r="3.5"/></g>
+        <g font-family="'IBM Plex Mono', monospace" font-size="8.5" fill="#a49d8e" text-anchor="middle">
+          <text x="160" y="272">Opens</text><text x="300" y="272">Window</text><text x="430" y="272">Production</text><text x="620" y="272">Delivery</text>
+        </g>
+        <g font-family="'IBM Plex Mono', monospace" font-size="9">
+          <line x1="380" y1="40" x2="410" y2="40" stroke="#dcbb7a" stroke-width="2.5"/><text x="418" y="43" fill="#efe9df">Pre-order model</text>
+          <line x1="520" y1="40" x2="550" y2="40" stroke="#8a8172" stroke-width="2" stroke-dasharray="5 4"/><text x="558" y="43" fill="#a49d8e">Buy-inventory model</text>
+        </g>
+      </svg>
+      <div class="fp-cap">An actual figure from Chapter 03 — the kind of <b>visual proof</b> you get throughout, not just paragraphs. This is what makes it read like a €29 volume rather than a blog post.</div>
+    </div>
+
+    <div class="spec-strip reveal">
+      <span class="spec"><b>26</b> pages</span>
+      <span class="spec"><b>7</b> chapters</span>
+      <span class="spec"><b>7</b> custom figures</span>
+      <span class="spec"><b>Interactive</b> contents &amp; bookmarks</span>
+      <span class="spec"><b>Printable</b> appendix</span>
+      <span class="spec"><b>Instant</b> PDF · works on any device</span>
+    </div>
+  </section>
+</div>
+
 <!-- ===== Who it's for ===== -->
 <div class="wrap">
   <section id="who">
@@ -559,7 +660,7 @@
     <div class="reveal d1">
       <div class="faq-item">
         <div class="faq-q">What format is it?</div>
-        <div class="faq-a">A polished PDF guide — seven chapters plus a printable appendix of checklists and templates — delivered instantly after purchase. No physical shipping.</div>
+        <div class="faq-a">A polished, interactive PDF — 26 pages across seven chapters, plus a printable appendix of checklists and templates. The contents are clickable, a bookmark outline lets you jump anywhere, and seven custom figures illustrate the frameworks. Delivered instantly after purchase; opens on any device. No physical shipping.</div>
       </div>
       <div class="faq-item">
         <div class="faq-q">How deep does the sourcing and quality material go?</div>
