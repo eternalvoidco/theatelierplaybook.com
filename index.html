@@ -419,9 +419,19 @@
   .final .buy-row { justify-content: center; }
 
   footer {
-    text-align: center; padding: 34px 0 calc(60px + env(safe-area-inset-bottom, 0px));
+    text-align: center; padding: 40px 0 calc(60px + env(safe-area-inset-bottom, 0px));
+    border-top: 1px solid var(--hair);
     font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 1px; color: var(--paper-dim);
   }
+  footer .foot-links {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 22px; margin-bottom: 16px;
+  }
+  footer .foot-links a {
+    color: var(--paper-dim); text-decoration: none; letter-spacing: 1px; text-transform: uppercase;
+    transition: color 0.25s ease;
+  }
+  footer .foot-links a:hover { color: var(--gold-soft); }
+  footer .foot-tag { color: var(--paper-dim); line-height: 1.7; }
 
   /* ---------------- Cinematic scroll reveal ---------------- */
   .reveal { opacity: 0; transform: translateY(34px); transition: opacity 0.9s var(--ease-lux), transform 0.9s var(--ease-lux); will-change: opacity, transform; }
@@ -714,7 +724,14 @@
   </section>
 </div>
 
-<footer>The Drop Model Playbook — Independent Founders Edition</footer>
+<footer>
+  <div class="foot-links">
+    <a href="/privacy.html">Privacy Policy</a>
+    <a href="/terms.html">Terms &amp; Refunds</a>
+    <a href="mailto:eternalvoid.co@gmail.com">Contact</a>
+  </div>
+  <div class="foot-tag">The Drop Model Playbook — Independent Founders Edition<br>© 2026 Eternal Void Atelier. All rights reserved.</div>
+</footer>
 
 <script>
 (function () {
