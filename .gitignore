@@ -1,0 +1,6 @@
+# Paid product — never publish to the public Pages repo
+The Drop Model Playbook.pdf
+*.pdf
+
+# Internal working source, not for the live site
+playbook-source.html

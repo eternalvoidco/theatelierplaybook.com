@@ -470,7 +470,7 @@
 
 <!-- ===== Top bar ===== -->
 <div class="topbar" id="topbar">
-  <a class="brand" href="#top"><b>Eternal Void</b> Atelier</a>
+  <a class="brand" href="/"><b>Eternal Void</b> Atelier</a>
   <div class="topbar-right">
     <a class="topbar-cta" href="https://eternalvoidco.gumroad.com/l/afydhp?wanted=true" target="_blank" rel="noopener">Get the guide — €29</a>
     <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false" aria-controls="drawer">
@@ -801,6 +801,25 @@
     reveals.forEach(function (el) { el.classList.add('in'); });
   }
 
+  /* ---- Keep the address bar clean (no #hash) after in-page jumps ---- */
+  function cleanUrl() {
+    if (window.history && history.replaceState) {
+      history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
+  }
+
+  /* Logo returns to the top of the page without leaving a #hash behind */
+  var brand = document.querySelector('.brand');
+  if (brand) {
+    brand.addEventListener('click', function (e) {
+      if (window.location.pathname === '/' || window.location.pathname === '') {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        cleanUrl();
+      }
+    });
+  }
+
   /* ---- Smooth-scroll offset for the fixed bar on anchor clicks ---- */
   document.querySelectorAll('a[href^="#"]').forEach(function (a) {
     a.addEventListener('click', function (e) {
@@ -811,6 +830,7 @@
       e.preventDefault();
       var top = target.getBoundingClientRect().top + window.pageYOffset - 64;
       window.scrollTo({ top: top, behavior: 'smooth' });
+      cleanUrl();
     });
   });
 })();
